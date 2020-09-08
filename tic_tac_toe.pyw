@@ -226,7 +226,6 @@ def cpu_play():
             except:
                 pass
 
-
 def check(): # check wich marked places with X and O and print then 
     global A,B,C,D,E,F,G,H,I,O,X
 
@@ -334,37 +333,74 @@ def event_reader():
                 board()
                 check() 
                 print_game_mode()
-                
-                
-def winner_check(): # check who won the game and print 
+                winner_check_cpu()
+                             
+def winner_check_cpu(): # check who won the game and print 
     global A,B,C,D,E,F,G,H,I, winner, playing
 
     if winner=='' and A!='' and (A==B and A==C or A==D and A==G or A==E and A==I):
         winner=A
-        text = fonte30.render(winner, 1, preto)
-        screen.blit(text, (225,413))
-        pygame.display.update()
-        playing=False
+        if winner=='O':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
         
     if winner=='' and C!='' and (C==E and C==G or C==F and C==I):
         winner=C
-        text = fonte30.render(winner, 1, preto)
-        screen.blit(text, (225,413))
-        pygame.display.update()
-        playing=False
+        if winner=='O':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
     if winner=='' and H!='' and (H==G and H==I or H==E and B==H):
         winner=H
-        text = fonte30.render(winner, 1, preto)
-        screen.blit(text, (225,413))
-        pygame.display.update()
-        playing=False
+        if winner=='O':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
     if winner=='' and D!='' and (D==E and D==F):
         winner=D
-        text = fonte30.render(winner, 1, preto)
-        screen.blit(text, (225,413))
-        pygame.display.update()
-        playing=False
+        if winner=='O':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
+
+def winner_check_player(): # check who won the game and print 
+    global A,B,C,D,E,F,G,H,I, winner, playing
+
+    if winner=='' and A!='' and (A==B and A==C or A==D and A==G or A==E and A==I):
+        winner=A
+        if winner=='X':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
         
+    if winner=='' and C!='' and (C==E and C==G or C==F and C==I):
+        winner=C
+        if winner=='X':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
+    if winner=='' and H!='' and (H==G and H==I or H==E and B==H):
+        winner=H
+        if winner=='X':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
+    if winner=='' and D!='' and (D==E and D==F):
+        winner=D
+        if winner=='X':
+            text = fonte30.render(winner, 1, preto)
+            screen.blit(text, (225,413))
+            pygame.display.update()
+            playing=False
+    
 def reload_game(): # reload the game and read the "game mode" button
     global playing, game_mode
     for event in pygame.event.get():
@@ -501,7 +537,8 @@ while game_on:
     while playing:
 
         event_reader()
-        winner_check()
+        winner_check_player()
+        # winner_check_cpu()
         check_velha()  
              
     reload_game()   
