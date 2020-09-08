@@ -6,87 +6,76 @@ import random
 from random import randint
 import csv
 
-# INICIAR E VERIFICAR SE PYGAME ESTA FUNCIONANDO
-try:
-    pygame.init()
-    print("O Pygame foi Inicializado com sucesso!")
-except:
-    print("O Sistema Apresentou Dificuldade para Inicializar o Pygame, Aguarde...")
-    check_errors = pygame.init()
-    if check_errors[1] > 0:
-        print("Ops, {0} o Pygame iniciou com algum problema..." . format(check_errors[1]))
-        sys.exit(-1)
-    else:
-        print("O Pygame foi inicializado com sucesso!")
-    pygame.init()
+def pygame_init(): # pygame sistem init
+    try:
+        pygame.init()
+        print("O Pygame foi Inicializado com sucesso!")
+    except:
+        print("O Sistema Apresentou Dificuldade para Inicializar o Pygame, Aguarde...")
+        check_errors = pygame.init()
+        if check_errors[1] > 0:
+            print("Ops, {0} o Pygame iniciou com algum problema..." . format(check_errors[1]))
+            sys.exit(-1)
+        else:
+            print("O Pygame foi inicializado com sucesso!")
+        pygame.init()
 
-# CARREGA AS IMAGENS DO JOGO
-try:
-    background = pygame.image.load('background.png')
-    print('\nSucesso ao carregar a imagem background.png')
-except:
-    print('\nERRO')
-    print('Falha ao carregar a background.png')
-try:
-    X = pygame.image.load('X.png')
-    print('\nSucesso ao carregar a imagem X.png')
-except:
-    print('\nERRO')
-    print('Falha ao carregar X.png')
-try:
-    O = pygame.image.load('O.png')
-    print('\nSucesso ao carregar a imagem O.png')
-except:
-    print('\nERRO')
-    print('Falha ao carregar O.png')
+def load_images(): # loading game images
+    global background, X, O
+    try:
+        background = pygame.image.load('background.png')
+        print('\nSucesso ao carregar a imagem background.png')
+    except:
+        print('\nERRO')
+        print('Falha ao carregar a background.png')
+    try:
+        X = pygame.image.load('X.png')
+        print('\nSucesso ao carregar a imagem X.png')
+    except:
+        print('\nERRO')
+        print('Falha ao carregar X.png')
+    try:
+        O = pygame.image.load('O.png')
+        print('\nSucesso ao carregar a imagem O.png')
+    except:
+        print('\nERRO')
+        print('Falha ao carregar O.png')
 
-# PREDEFINIR CORES
-color_list=[]
-preto = (0,0,0)
-branco = (255,255,255)
-cinza = (195,195,195)
-vermelho = (255,0,0)
-azul = (0,0,255)
-verde = (0,255,0)
-amarelo = (255,255,0)
-rosa = (255,15,192)
-roxo = (148,0,211)
-laranja = (255,127,0)
-salmao = (250,127,117)
-azul_claro=(173,216,230)
-marrom = (150,75,0)
-vinho = (94,33,41)
+def color_font(): # set pygame colors and text font
+    global preto, branco, cinza, vermelho, azul, verde, amarelo, rosa, roxo, laranja, salmao, azul_claro, marrom, vinho, font_padrao, fonte20, fonte30, fonte50, fonte70
 
-color_list.append(preto)
-color_list.append(branco)
-color_list.append(vermelho)
-color_list.append(azul)
-color_list.append(verde)
-color_list.append(amarelo)
-color_list.append(rosa)
-color_list.append(roxo)
-color_list.append(laranja)
-color_list.append(salmao)
-color_list.append(azul_claro)
-color_list.append(marrom)
-color_list.append(vinho)
+    preto = (0,0,0)
+    branco = (255,255,255)
+    cinza = (195,195,195)
+    vermelho = (255,0,0)
+    azul = (0,0,255)
+    verde = (0,255,0)
+    amarelo = (255,255,0)
+    rosa = (255,15,192)
+    roxo = (148,0,211)
+    laranja = (255,127,0)
+    salmao = (250,127,117)
+    azul_claro=(173,216,230)
+    marrom = (150,75,0)
+    vinho = (94,33,41)
 
-# DEFINE INTERFACE GRAFICA
-width = 400
-height = 480
-size = (width, height)
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Tic Tac Toe ML")
-# pygame.display.set_icon(uni_right)
+    pygame.font.init()
+    font_padrao = pygame.font.get_default_font()
+    fonte50 = pygame.font.SysFont(font_padrao, 50)
+    fonte20 = pygame.font.SysFont(font_padrao, 20)
+    fonte100 = pygame.font.SysFont(font_padrao, 100)
+    fonte30 = pygame.font.SysFont(font_padrao, 30)
+    fonte70 = pygame.font.SysFont(font_padrao, 70)
 
-# INICIALIZA E DEFINE A FONTE DE TEXTO DO JOGO
-pygame.font.init()
-font_padrao = pygame.font.get_default_font()
-fonte50 = pygame.font.SysFont(font_padrao, 50)
-fonte20 = pygame.font.SysFont(font_padrao, 20)
-fonte100 = pygame.font.SysFont(font_padrao, 100)
-fonte30 = pygame.font.SysFont(font_padrao, 30)
-fonte70 = pygame.font.SysFont(font_padrao, 70)
+def init_screen(): # init the game window
+    global screen
+    
+    width = 400
+    height = 480
+    size = (width, height)
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Tic Tac Toe ML")
+    # pygame.display.set_icon(uni_right)
 
 def blackout(): # turn the screen black
     blackout = pygame.Surface((400,480))
@@ -98,7 +87,7 @@ def board(): # print the buttons and the game board
     screen.blit(background,(0,0))
     pygame.display.update()
     
-def cpu_play(): 
+def cpu_play(): # get the Machine Learning decision and make the CPU play
     global A,B,C,D,E,F,G,H,I, game_mode, playing, feature_log, label_log
 
     empty_spaces = []
@@ -226,7 +215,7 @@ def cpu_play():
             except:
                 pass
 
-def check(): # check wich marked places with X and O and print then 
+def check_slots(): # check wich marked places with X and O and print then 
     global A,B,C,D,E,F,G,H,I,O,X
 
     if A=='X':
@@ -268,74 +257,79 @@ def check(): # check wich marked places with X and O and print then
 
     pygame.display.update()
 
-def event_reader():
+def player_play(): # read events to get the mouse click of the player
 
     global A,B,C,D,E,F,G,H,I, playing, turno
 
-    for event in pygame.event.get():
+    wait=True
+    while wait:
 
-            if event.type == pygame.QUIT:
-                game_on=False
-                playing=False
-                pygame.quit() 
-                sys.exit(0)
-            
-            if turno==0:
+        for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    wait=False
+                    game_on=False
+                    playing=False
+                    pygame.quit() 
+                    sys.exit(0)
                 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    click_x, click_y = pygame.mouse.get_pos()
+                if turno==0:
                     
-                    if 0<click_y<399:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        click_x, click_y = pygame.mouse.get_pos()
                         
-                        if click_x<130:
-                            if click_y<130:
-                                if A=='':
-                                    A='X'
-                                    turno=1
-                            elif 130<click_y<260:
-                                if D=='':
-                                    D='X'
-                                    turno=1
-                            elif 260<click_y<400:
-                                if G=='':
-                                    G='X'
-                                    turno=1
-                        if 130<click_x<263:
-                            if click_y<130:
-                                if B=='':
-                                    B='X'
-                                    turno=1
-                            elif 130<click_y<260:
-                                if E=='':
-                                    E='X'
-                                    turno=1
-                            elif 260<click_y<400:
-                                if H=='':
-                                    H='X'
-                                    turno=1
-                        if 265<click_x<400:
-                            if click_y<130:
-                                if C=='':
-                                    C='X'
-                                    turno=1
-                            elif 130<click_y<260:
-                                if F=='':
-                                    F='X'
-                                    turno=1
-                            elif 260<click_y<400:
-                                if I=='':
-                                    I='X'
-                                    turno=1
-            if turno==1:
-                turno=0
-                cpu_play()
-                blackout()
-                board()
-                check() 
-                print_game_mode()
-                winner_check_cpu()
-                             
-def winner_check_cpu(): # check who won the game and print 
+                        if 0<click_y<399:
+                            
+                            if click_x<130:
+                                if click_y<130:
+                                    if A=='':
+                                        A='X'
+                                        turno=1
+                                        wait=False
+                                elif 130<click_y<260:
+                                    if D=='':
+                                        D='X'
+                                        turno=1
+                                        wait=False
+                                elif 260<click_y<400:
+                                    if G=='':
+                                        G='X'
+                                        turno=1
+                                        wait=False
+                            if 130<click_x<263:
+                                if click_y<130:
+                                    if B=='':
+                                        B='X'
+                                        turno=1
+                                        wait=False
+                                elif 130<click_y<260:
+                                    if E=='':
+                                        E='X'
+                                        turno=1
+                                        wait=False
+                                elif 260<click_y<400:
+                                    if H=='':
+                                        H='X'
+                                        turno=1
+                                        wait=False
+                            if 265<click_x<400:
+                                if click_y<130:
+                                    if C=='':
+                                        C='X'
+                                        turno=1
+                                        wait=False
+                                elif 130<click_y<260:
+                                    if F=='':
+                                        F='X'
+                                        turno=1
+                                        wait=False
+                                elif 260<click_y<400:
+                                    if I=='':
+                                        I='X'
+                                        turno=1
+                                        wait=False
+                                     
+def winner_check_cpu(): # check if the CPU won the game and print 
     global A,B,C,D,E,F,G,H,I, winner, playing
 
     if winner=='' and A!='' and (A==B and A==C or A==D and A==G or A==E and A==I):
@@ -368,7 +362,7 @@ def winner_check_cpu(): # check who won the game and print
             pygame.display.update()
             playing=False
 
-def winner_check_player(): # check who won the game and print 
+def winner_check_player(): # check if the player won the game and print 
     global A,B,C,D,E,F,G,H,I, winner, playing
 
     if winner=='' and A!='' and (A==B and A==C or A==D and A==G or A==E and A==I):
@@ -425,7 +419,7 @@ def reload_game(): # reload the game and read the "game mode" button
                 elif game_mode==2: game_mode=1
                 print_game_mode()
 
-def print_game_mode():
+def print_game_mode(): # print the game mode on the screen
     global game_mode
 
     erase = pygame.Surface((85,25))
@@ -440,7 +434,7 @@ def print_game_mode():
 
     pygame.display.update()
 
-def limpar(text): # removes unnecessary characters
+def limpar(text): # removes unnecessary characters from a string
     text = str(text)
     text = text.replace("\n",'')
     text = text.replace('"' , '')
@@ -480,7 +474,7 @@ def cpu_guess(spaces): # ML to preview moves
     ans = limpar(str(ans))
     return ans
 
-def write_results():
+def write_results(): # write the results if the CPU win the game
     global winner, feature_log, label_log
 
     if winner=='O':
@@ -493,7 +487,7 @@ def write_results():
                 csv_file.write(('\n'+str(j)))
             csv_file.close()
 
-def check_velha():
+def check_velha(): # check if the game draw
     global A,B,C,D,E,F,G,H,I, playing
 
     empty_spaces = []
@@ -512,12 +506,21 @@ def check_velha():
         playing=False
 
 
+# start game sistem and window
+pygame_init()
+load_images()
+color_font()
+init_screen()
+
+# setting inicial vars
 game_on = True
 playing = True
 game_mode=2
 blackout()
 board()
 print_game_mode()
+
+# main loop
 while game_on:
 
     turno=randint(0,1)
@@ -535,11 +538,28 @@ while game_on:
     I=''
     
     while playing:
+        
+        if turno==0 and winner=='':
+            player_play()
+            blackout()
+            board()
+            check_slots()
+            print_game_mode()    
+            check_velha()
+            winner_check_player()
 
-        event_reader()
-        winner_check_player()
-        # winner_check_cpu()
-        check_velha()  
+            turno=1
+
+        if turno==1 and winner=='':
+            cpu_play()
+            blackout()
+            board()
+            check_slots() 
+            print_game_mode()
+            check_velha()
+            winner_check_cpu()
+
+            turno=0
              
     reload_game()   
     write_results()
