@@ -121,7 +121,7 @@ def cpu_play(): # get the Machine Learning decision and make the CPU play
         except:
             pass
     
-    if game_mode==2: # machine learning mode
+    if game_mode==2 or game_mode==3: # machine learning mode
         
         board=[]
         if A=='': board.append(0)
@@ -416,7 +416,8 @@ def reload_game(): # reload the game and read the "game mode" button
 
             if (5<click_x<138) and (444<click_y<471):
                 if game_mode==1: game_mode=2
-                elif game_mode==2: game_mode=1
+                elif game_mode==2: game_mode=3
+                elif game_mode==3: game_mode=1
                 print_game_mode()
 
 def print_game_mode(): # print the game mode on the screen
@@ -431,6 +432,9 @@ def print_game_mode(): # print the game mode on the screen
     elif game_mode==2:
         text = fonte30.render('ML', 1, preto)
         screen.blit(text, (65,450))
+    elif game_mode==3:
+        text = fonte30.render('Auto', 1, preto)
+        screen.blit(text, (57,450))
 
     pygame.display.update()
 
@@ -505,6 +509,38 @@ def check_velha(): # check if the game draw
     if empty_spaces==[]:
         playing=False
 
+def second_cpu_play():
+    global A,B,C,D,E,F,G,H,I, game_mode, playing, turno
+    empty_spaces = []
+
+    if A=='': empty_spaces.append('A')
+    if B=='': empty_spaces.append('B')
+    if C=='': empty_spaces.append('C')
+    if D=='': empty_spaces.append('D')
+    if E=='': empty_spaces.append('E')
+    if F=='': empty_spaces.append('F')
+    if G=='': empty_spaces.append('G')
+    if H=='': empty_spaces.append('H')
+    if I=='': empty_spaces.append('I')
+
+    if empty_spaces==[]:
+        playing=False
+    
+    try:
+        play = random.choice(empty_spaces)
+        if play=='A': A='X' 
+        if play=='B': B='X' 
+        if play=='C': C='X' 
+        if play=='D': D='X' 
+        if play=='E': E='X' 
+        if play=='F': F='X' 
+        if play=='G': G='X' 
+        if play=='H': H='X' 
+        if play=='I': I='X' 
+        turno=1
+
+    except:
+        pass
 
 # start game sistem and window
 pygame_init()
@@ -540,13 +576,23 @@ while game_on:
     while playing:
         
         if turno==0 and winner=='':
-            player_play()
-            blackout()
-            board()
-            check_slots()
-            print_game_mode()    
-            check_velha()
-            winner_check_player()
+
+            if game_mode==3:
+                second_cpu_play()
+                blackout()
+                board()
+                check_slots()
+                print_game_mode()    
+                check_velha()
+                winner_check_player()
+            else:
+                player_play()
+                blackout()
+                board()
+                check_slots()
+                print_game_mode()    
+                check_velha()
+                winner_check_player()
 
             turno=1
 
